@@ -181,9 +181,9 @@ export const sanitationManagementRole = {
   },
   cooking_process_orders: {
     read:   true,
-    create: false,
-    update: false,
-    delete: false,
+    create: true,
+    update: true,
+    delete: true,
   },
   order_status: {
     read:   true,
@@ -193,8 +193,8 @@ export const sanitationManagementRole = {
   },
   venue_maps: {
     read:   true,
-    create: false,
-    update: false,
-    delete: false,
+    create: true,
+    update: true,
+    delete: true,
   },
 };
