@@ -404,10 +404,10 @@ class Api::V1::OutputCsvController < ApplicationController
 
   def output_users_csv
     if params[:fes_year_id].to_i == 0
-      @groups = Group.all
+      @groups = Group.preload(:user, :sub_rep, user: :user_detail) # 必要な関連を事前にロード
       filename_year = "全"
     else
-      @groups = Group.where(fes_year_id: params[:fes_year_id])
+      @groups = Group.where(fes_year_id: params[:fes_year_id]).preload(:user, :sub_rep, user: :user_detail) # 必要な関連を事前にロード
       filename_year = FesYear.find(params[:fes_year_id]).year_num
     end
   
