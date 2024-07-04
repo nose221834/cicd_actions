@@ -223,7 +223,7 @@ export default {
     },
     async downloadContactsCSV() {
       const url =
-        this.$config.apiURL + "/api/v1/get_users_csv/" + this.refYearID;
+        this.$config.apiURL + "/api/v1/get_users_csv/" + this.currentYearID;
       window.open(url, "連絡先リスト_CSV");
     },
     async downloadGroupInfoCSV() {
