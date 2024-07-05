@@ -404,34 +404,55 @@ class Api::V1::OutputCsvController < ApplicationController
 
   def output_users_csv
     if params[:fes_year_id].to_i == 0
-      @users = Group.preload(:user).map{ |group| group.user }
+      @groups = Group.preload(:user, :sub_rep, user: :user_detail) # 必要な関連を事前にロード
       filename_year = "全"
     else
-      @users = Group.where(fes_year_id:params[:fes_year_id]).preload(:user).map{ |group| group.user }
+      @groups = Group.where(fes_year_id: params[:fes_year_id]).preload(:user, :sub_rep, user: :user_detail) # 必要な関連を事前にロード
       filename_year = FesYear.find(params[:fes_year_id]).year_num
     end
+  
+    @categories = []
+    for i in 1..6 do
+      group = @groups.where(group_category_id: i)
+      @categories << group
+    end
+  
     bom = "\uFEFF"
     csv_data = CSV.generate(bom) do |csv|
-      column_name = %w(名前 学科 学年 学籍番号 メールアドレス 電話番号)
+      column_name = %w(参加団体形式 団体番号 団体名 氏名 電話番号 メールアドレス 備考欄)
       csv << column_name
-      @users.each do |user|
-        # データが存在しない場合はスキップする
-        if user.nil?
-          next
+      @categories.each do |category|
+        next unless category.exists?
+        category.each do |group|
+          rep = group.user
+          sub_rep = group.sub_rep
+          # 代表者情報を1行目に追加
+          csv << [
+            group.group_category.name,
+            group.number,
+            group.name,
+            rep&.name,
+            rep&.user_detail&.tel,
+            rep&.email,
+            "" # 備考欄は空のまま
+          ]
+          # 副代表者情報を2行目に追加
+          csv << [
+            "",
+            "",
+            "",
+            sub_rep&.name,
+            sub_rep&.tel,
+            sub_rep&.email,
+            "" # 備考欄は空のまま
+          ]
         end
-        column_values = [
-          user.name,
-          user.user_detail.department.name,
-          user.user_detail.grade.name,
-          user.user_detail.student_id,
-          user.email,
-          user.user_detail.tel
-        ]
-        csv << column_values
       end
     end
-    send_data(csv_data, filename:"代表者_#{filename_year}年度.csv")
+  
+    send_data(csv_data, filename: "連絡先リスト_#{filename_year}年度.csv")
   end
+  
 
   def output_announcements_csv
     @announcements = Announcement.all
