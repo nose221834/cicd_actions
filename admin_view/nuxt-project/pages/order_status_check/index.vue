@@ -89,13 +89,13 @@
               <div v-else-if="group.group_category !== 1">ー</div>
               <div v-else>✖️</div>
             </td>
-            <td :class="{ unregistered: !group.food_products && (group.group_category === 1 || group.group_category === 2) }">
-              <div v-if="group.food_products && group.food_products.food_product">◯</div>
+            <td :class="{ unregistered: !group.food_product && (group.group_category === 1 || group.group_category === 2) }">
+              <div v-if="group.food_product">◯</div>
               <div v-else-if="group.group_category !== 1 && group.group_category !== 2">ー</div>
               <div v-else>✖️</div>
             </td>
-            <td :class="{ unregistered: !(group.food_products && group.food_products.purchase_lists) && group.group_category === 1 }">
-              <div v-if="group.food_products && group.food_products.purchase_lists">◯</div>
+            <td :class="{ unregistered: !group.purchase_list && group.group_category === 1 }">
+              <div v-if="group.purchase_list">◯</div>
               <div v-else-if="group.group_category !== 1">ー</div>
               <div v-else>✖️</div>
             </td>
@@ -204,6 +204,7 @@ export default {
     }),
   },
   mounted() {
+    console.log(this.groups)
     const storedYearID = localStorage.getItem(this.$route.path + "RefYear");
 
     if (storedYearID) {
@@ -275,7 +276,6 @@ export default {
       this.fetchFilteredData();
     },
     updateFilters(item_id, name_list) {
-      console.log(item_id, name_list[0]);
       // fes_yearで絞り込むとき
       if (name_list.toString() == this.yearList.toString()) {
         this.refYearID = item_id;

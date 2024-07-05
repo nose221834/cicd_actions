@@ -21,11 +21,8 @@ class Api::V1::OrderStatusCheckApiController < ApplicationController
           "power_orders": group.power_orders.count == 0 ? nil : group.power_orders[0].id,
           "rental_orders": group.rental_orders.count == 0 ? nil : group.rental_orders[0].id,
           "employees": group.employees.count == 0 ? nil : group.employees[0].id,
-          "food_products": group.food_products.empty? ? nil :
-            {
-              "food_product": group.food_products.first.nil? ? nil : group.food_products.first.id,
-              "purchase_lists": group.food_products.first.nil? || group.food_products.first.purchase_lists.empty? ? nil : group.food_products.first.purchase_lists[0].id
-            },
+          "food_product": group.food_products.empty? ? nil : true,
+          "purchase_list": group.food_products.empty? ? nil : group.food_products.any? { |food_product| !food_product.purchase_lists.empty? } ? true : nil,
           "public_relation": group.public_relation.nil? ? nil : group.public_relation.id,
           "venue_map": group.venue_map.nil? ? nil : group.venue_map.id,
           "announcement": group.announcement.nil? ? nil : group.announcement.status,
