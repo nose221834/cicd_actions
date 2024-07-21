@@ -17,7 +17,7 @@ class PublicRelationsController < ApplicationController
 
   def update
     @public_relation.update(public_relation_params)
-    render json: fmt(created, @public_relations, "Updated public_relation id = "+params[:id])
+    render json: fmt(created, @public_relation, "Updated public_relation id = "+params[:id])
   end
 
   def destroy

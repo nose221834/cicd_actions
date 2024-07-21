@@ -694,6 +694,7 @@ class Group < ApplicationRecord
           |group|
           {
             "group": group,
+            "public_relation_id": group.public_relation.nil? ? nil : group.public_relation.id,
             "picture_name": group.public_relation.nil? ? nil : group.public_relation.picture_name,
             "picture_path": group.public_relation.nil? ? nil : group.public_relation.picture_path,
             "blurb": group.public_relation.nil? ? nil : group.public_relation.blurb,
