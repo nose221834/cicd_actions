@@ -228,12 +228,12 @@ export default {
     },
     async downloadGroupInfoCSV() {
       const url =
-        this.$config.apiURL + "/api/v1/get_assign_rental_items_csv/" + this.refYearID;
+        this.$config.apiURL + "/api/v1/get_groups_csv/" + this.refYearID;
       window.open(url, "参加団体情報リスト_CSV");
     },
     async downloadRentalItemsAllCSV() {
       const url =  //無し
-        this.$config.apiURL + "/api/v1/get_groups_csv/" + this.refYearID;
+        this.$config.apiURL + "/api/v1/get_assign_rental_items_csv/" + this.refYearID;
       window.open(url, "物品貸し出し表まとめ_CSV");
     },
   },
