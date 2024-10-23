@@ -16,13 +16,13 @@ jobs:
       matrix:
         include:
           - dockerfile: admin.k8s.Dockerfile
-            image_name: nose0118/group-manager-2-admin-view
+            image_name: nose118/group-manager-2-admin-view
 
           - dockerfile: front.k8s.Dockerfile
-            image_name: nose0118/group-manager-2-user-front
+            image_name: nose118/group-manager-2-user-front
 
           - dockerfile: api.k8s.Dockerfile
-            image_name: nose0118/group-manager-2-api
+            image_name: nose118/group-manager-2-api
 
     steps:
       - uses: actions/checkout@v4
