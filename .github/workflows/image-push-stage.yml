@@ -16,13 +16,13 @@ jobs:
       matrix:
         include:
           - dockerfile: admin.k8s.Dockerfile
-            image_name: nutfes/group-manager-2-admin-view
+            image_name: nose118/group-manager-2-admin-view
 
           - dockerfile: front.k8s.Dockerfile
-            image_name: nutfes/group-manager-2-user-front
+            image_name: nose118/group-manager-2-user-front
 
           - dockerfile: api.k8s.Dockerfile
-            image_name: nutfes/group-manager-2-api
+            image_name: nose118/group-manager-2-api
 
     steps:
       - uses: actions/checkout@v4
@@ -47,7 +47,7 @@ jobs:
           push: true
           tags: ${{ matrix.image_name }}:latest
           build-args: |
-            API_URL=https://group-manager-api.nosse.net
-            APP_API_URL=https://group-manager-api.nosse.net
-            CLIENT_ID=${{ secrets.NUXT_IMGUR_CLIENT_ID }}
-            CLIENT_SECRET=${{ secrets.NUXT_IMGUR_CLIENT_SECRET }}
+            VUE_APP_URL=${{ secrets.VUE_APP_URL }}
+            VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }}
+            NUXT_IMGUR_CLIENT_ID=${{ secrets.NUXT_IMGUR_CLIENT_ID }}
+            NUXT_IMGUR_CLIENT_SECRET=${{ secrets.NUXT_IMGUR_CLIENT_SECRET }}
